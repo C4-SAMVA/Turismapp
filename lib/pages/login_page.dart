@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:registrar_page_turismapp/pages/home_page.dart';
+import 'package:registrar_page_turismapp/pages/navigationbar_page.dart';
 import 'package:registrar_page_turismapp/pages/registrar_page.dart';
 
 
@@ -75,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                         builder: (context) => const HomePage()));
+                         builder: (context) => const navigationBar()));
                 } ,
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.indigo,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16),
