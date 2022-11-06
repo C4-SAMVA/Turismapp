@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:registrar_page_turismapp/pages/navigationbar_page.dart';
+import 'package:registrar_page_turismapp/pages/login_page.dart';
+import 'package:registrar_page_turismapp/repository/firebase_api.dart';
 
 class RegistrarPage extends StatefulWidget {
   const RegistrarPage({Key? key}) : super(key: key);
@@ -8,9 +10,10 @@ class RegistrarPage extends StatefulWidget {
   _RegistrarPageState createState() => _RegistrarPageState();
 }
 
-enum Genero { Femenino, Masculino }
-
 class _RegistrarPageState extends State<RegistrarPage> {
+
+  final FirebaseApi _firebaseApi = FirebaseApi();
+
   final nombres = TextEditingController();
   final apellidos = TextEditingController();
   final telefono = TextEditingController();
@@ -19,15 +22,29 @@ class _RegistrarPageState extends State<RegistrarPage> {
   final password = TextEditingController();
   final passwordConf = TextEditingController();
 
-  Genero? _genero = Genero.Femenino;
 
   String _data = "Información: ";
+
+  void saveUser(User user) async {
+    var result = await _firebaseApi.registerUser(user.email, user.password);
+  }
 
   void _onRegisterButtonClicked() {
     setState(() {
       _data = "Nombre: ${nombres.text} \n Correo Electrónico: ${email.text}";
+
+      var user = User(
+          nombres.text, email.text, password.text
+      );
+
+      saveUser(user);
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => LoginPage()));
     });
   }
+
+  _RegistrarPageState(
+      this.nombres, this.email, this.password, this.passwordConf);
 
   @override
   Widget build(BuildContext context) {
@@ -145,11 +162,10 @@ class _RegistrarPageState extends State<RegistrarPage> {
                         textStyle: const TextStyle(
                             fontStyle: FontStyle.italic, fontSize: 20)),
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const navigationBar()));
-
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => const navigationBar()));
                       _onRegisterButtonClicked();
                     },
                     child: const Text("Registrarse")),
