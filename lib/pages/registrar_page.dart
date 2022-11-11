@@ -43,9 +43,6 @@ class _RegistrarPageState extends State<RegistrarPage> {
     });
   }
 
-  _RegistrarPageState(
-      this.nombres, this.email, this.password, this.passwordConf);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
