@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:registrar_page_turismapp/models/user.dart';
 
 class FirebaseApi {
   // CODIGO DE PROFESOR EN TALLER
@@ -16,11 +17,11 @@ class FirebaseApi {
     }
   }
 
-  Future<String?> loginUser(String email, String password) async {
-    try {
-      final credential = FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: email, password: password);
-      return credential.user?.uid;
-    }
-  }
+  // Future<String?> loginUser(String email, String password) async {
+  //   try {
+  //     final credential = FirebaseAuth.instance.signInWithEmailAndPassword(
+  //         email: email, password: password);
+  //     return credential.user?.uid;
+  //   }
+  // }
 }

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:registrar_page_turismapp/pages/login_page.dart';
 import 'package:registrar_page_turismapp/repository/firebase_api.dart';
+import 'package:registrar_page_turismapp/models/user.dart';
 
 class RegistrarPage extends StatefulWidget {
   const RegistrarPage({Key? key}) : super(key: key);
@@ -25,16 +26,42 @@ class _RegistrarPageState extends State<RegistrarPage> {
 
   String _data = "Información: ";
 
-  void saveUser(User user) async {
+  // void _saveUser(User user) async {
+  //   var result = await _firebaseApi.registerUser(user.email, user.password);
+  // }
+
+  void _saveUser(User user) async {
+    var result = await _firebaseApi.createUser(user);
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => const LoginPage()));
+  }
+
+  void _registerUser(User user) async {
+    //SharedPreferences prefs = await SharedPreferences.getInstance();
+    //prefs.setString("user", jsonEncode(user));
     var result = await _firebaseApi.registerUser(user.email, user.password);
+    String msg = "";
+    if (result == "invalid-email") {
+      msg = "El correo electónico está mal escrito";
+    } else if (result == "weak-password") {
+      msg = "La contrasena debe tener minimo 6 digitos";
+    } else if (result == "email-already-in-use") {
+      msg = "Ya existe una cuenta con ese correo electronico";
+    } else if (result == "network-request-failed") {
+      msg = "Revise su conexion a internet";
+    } else {
+      msg = "Usuario registrado con exito";
+      user.uid = result;
+      _saveUser(user);
+    }
+    _showMsg(msg);
   }
 
   void _onRegisterButtonClicked() {
     setState(() {
       _data = "Nombre: ${nombres.text} \n Correo Electrónico: ${email.text}";
 
-      var user = User(
-          nombres.text, email.text, password.text
+      var user = User("", nombres.text, email.text, password.text
       );
 
       saveUser(user);
