@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:registrar_page_turismapp/pages/home_page.dart';
 import 'package:fluentui_icons/fluentui_icons.dart';
-import 'package:registrar_page_turismapp/pages/search_screen.dart';
 
 
 class navigationBar extends StatefulWidget {
@@ -12,10 +11,9 @@ class navigationBar extends StatefulWidget {
 }
 
 class _navigationBarState extends State<navigationBar> {
-  int _selectedIndex=1;
+  int _selectedIndex=0;
   static final List <Widget>_widgetOptions = <Widget>[
     HomePage(),
-    SearchScreen(),
     const Text("Perfil"),
   ];
   void _onItemTapped(int index){
